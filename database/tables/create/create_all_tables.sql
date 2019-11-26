@@ -14,7 +14,7 @@ CREATE TABLE Departments
 (
     ID      INT IDENTITY (1, 1) PRIMARY KEY,
     Name    NVARCHAR(50) NOT NULL UNIQUE,
-    Manager NVARCHAR(50) NOT NULL DEFAULT ('Ochódzki Ryszard')
+    Manager NVARCHAR(50) NOT NULL DEFAULT ('OchÃ³dzki Ryszard')
 );
 
 -- Categories
@@ -42,7 +42,7 @@ CREATE TABLE FundsPacks
     DepartmentID INT        NOT NULL,
     CategoryID   INT        NOT NULL,
     Sum          MONEY      NOT NULL CHECK (sum > 0),
-    State        VARCHAR(9) NOT NULL CHECK (state IN ('added', 'finalized'))
+    State        VARCHAR(3) NOT NULL CHECK (state IN ('add', 'fin'))
         FOREIGN KEY (DepartmentID) REFERENCES Departments (ID),
     FOREIGN KEY (CategoryID) REFERENCES Categories (ID)
 );
@@ -56,8 +56,8 @@ CREATE TABLE Invoices
     FoundsPackID      INT,
     DepartmentID      INT        NOT NULL,
     Number            INT        NOT NULL CHECK (number > 0),
+    Type              VARCHAR(3) NOT NULL CHECK (type IN ('in', 'out')),
     IssueDate         DATE       NOT NULL,
-    Type              VARCHAR(9) NOT NULL CHECK (type IN ('incoming', 'outcoming')),
 
     FOREIGN KEY (BusinessPartnerID) REFERENCES BusinessPartners (ID),
     FOREIGN KEY (FoundsPackID) REFERENCES FundsPacks (ID),
@@ -107,7 +107,7 @@ CREATE TABLE InvoiceProducts
 CREATE TABLE Invoices_log
 (
     OperationID       INT IDENTITY (1, 1) PRIMARY KEY,
-    OperationDate     DATETIME2   NOT NULL,
+    OperationDate     DATETIME2  NOT NULL,
     OperationType     VARCHAR(3) NOT NULL CHECK (OperationType IN ('INS', 'DEL')),
 
     ID                INT,

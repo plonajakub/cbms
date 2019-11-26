@@ -4,6 +4,7 @@ CREATE TRIGGER log_invoices
     AFTER INSERT, UPDATE, DELETE
     AS
 BEGIN
+    SET NOCOUNT ON;
     INSERT INTO Invoices_log
     (OperationDate,
      OperationType,
