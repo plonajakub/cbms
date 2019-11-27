@@ -1,4 +1,4 @@
--- FullInvoices
+
 CREATE VIEW FullInvoices AS
 SELECT BP.Name AS BusinessPartner,
        I.FoundsPackID,
@@ -37,11 +37,12 @@ FROM InvoiceProducts IP
 
 
 CREATE VIEW Investments AS
-    SELECT D.Name AS Deparment,
-           D.Manager,
-           C.Name AS Category,
-           FP.Sum,
-           FP.State
+SELECT D.Name AS Deparment,
+       D.Manager,
+       C.Name AS Category,
+       FP.Sum,
+       FP.State
 FROM FundsPacks FP
-INNER JOIN Categories C on FP.CategoryID = C.ID
-INNER JOIN Departments D on FP.DepartmentID = D.ID;
+         INNER JOIN Categories C on FP.CategoryID = C.ID
+         INNER JOIN Departments D on FP.DepartmentID = D.ID;
+
