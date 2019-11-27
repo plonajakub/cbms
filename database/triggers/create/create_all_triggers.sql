@@ -33,3 +33,15 @@ BEGIN
     FROM deleted
 END
 
+-- Delete Pending --
+
+CREATE TRIGGER delete_pending
+    ON Pending
+    AFTER DELETE
+    AS
+BEGIN
+    INSERT INTO History (InvoiceID, PaymentDate)
+    VALUES ((SELECT d.InvoiceID FROM DELETED d), GETDATE());
+END
+    
+
