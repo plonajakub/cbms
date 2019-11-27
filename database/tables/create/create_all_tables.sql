@@ -42,7 +42,7 @@ CREATE TABLE FundsPacks
     DepartmentID INT        NOT NULL,
     CategoryID   INT        NOT NULL,
     Sum          MONEY      NOT NULL CHECK (sum > 0),
-    State        VARCHAR(3) NOT NULL CHECK (state IN ('add', 'fin'))
+    State        CHAR(3) NOT NULL CHECK (state IN ('add', 'fin'))
         FOREIGN KEY (DepartmentID) REFERENCES Departments (ID),
     FOREIGN KEY (CategoryID) REFERENCES Categories (ID)
 );

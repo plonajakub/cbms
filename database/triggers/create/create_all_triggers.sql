@@ -32,6 +32,7 @@ BEGIN
     SELECT @operationID, GETDATE(), 'DEL', *
     FROM deleted
 END
+GO
 
 -- Delete Pending --
 
@@ -43,5 +44,5 @@ BEGIN
     INSERT INTO History (InvoiceID, PaymentDate)
     VALUES ((SELECT d.InvoiceID FROM DELETED d), GETDATE());
 END
-    
+GO
 
