@@ -4,22 +4,32 @@ CREATE TRIGGER log_invoices
     AFTER INSERT, UPDATE, DELETE
     AS
 BEGIN
+    DECLARE @operationID INT;
+    SELECT @operationID = MAX(OperationID) FROM Invoices_log;
+    IF @operationID IS NULL
+        BEGIN
+            SET @operationID = 0;
+        END
+    SET @operationID = @operationID + 1;
+
     SET NOCOUNT ON;
+
     INSERT INTO Invoices_log
-    (OperationDate,
+    (OperationID,
+     OperationDate,
      OperationType,
-     ID,
+     InvoiceID,
      BusinessPartnerID,
      FoundsPackID,
      DepartmentID,
      Number,
-     IssueDate,
-     Type)
+     Type,
+     IssueDate)
 
-    SELECT GETDATE(), 'INS', *
+    SELECT @operationID, GETDATE(), 'INS', *
     FROM inserted
     UNION ALL
-    SELECT GETDATE(), 'DEL', *
+    SELECT @operationID, GETDATE(), 'DEL', *
     FROM deleted
 END
 

@@ -106,15 +106,16 @@ CREATE TABLE InvoiceProducts
 -- Invoices_log
 CREATE TABLE Invoices_log
 (
-    OperationID       INT IDENTITY (1, 1) PRIMARY KEY,
+    ID                INT IDENTITY (1, 1) PRIMARY KEY,
+    OperationID       INT        NOT NULL CHECK (OperationID > 0),
     OperationDate     DATETIME2  NOT NULL,
-    OperationType     VARCHAR(3) NOT NULL CHECK (OperationType IN ('INS', 'DEL')),
+    OperationType     CHAR(3) NOT NULL CHECK (OperationType IN ('INS', 'DEL')),
 
-    ID                INT,
+    InvoiceID         INT,
     BusinessPartnerID INT,
     FoundsPackID      INT,
     DepartmentID      INT,
     Number            INT,
-    IssueDate         DATE,
-    Type              VARCHAR(9)
+    Type              VARCHAR(3),
+    IssueDate         DATE
 );

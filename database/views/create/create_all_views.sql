@@ -1,3 +1,4 @@
+-- FullInvoices
 CREATE VIEW FullInvoices AS
 SELECT BP.Name AS BusinessPartner,
        I.FoundsPackID,
@@ -12,6 +13,7 @@ FROM Invoices I
          INNER JOIN Departments D ON I.DepartmentID = D.ID
          LEFT OUTER JOIN Pending P ON I.ID = P.InvoiceID
          LEFT OUTER JOIN History H ON I.ID = H.InvoiceID;
+
 
 CREATE VIEW Transactions AS
 SELECT D.Name      AS Department,
@@ -32,6 +34,7 @@ FROM InvoiceProducts IP
          INNER JOIN Categories C ON PD.CategoryID = C.ID
          LEFT OUTER JOIN Pending P ON I.ID = P.InvoiceID
          LEFT OUTER JOIN History H ON I.ID = H.InvoiceID;
+
 
 CREATE VIEW Investments AS
     SELECT D.Name AS Deparment,
