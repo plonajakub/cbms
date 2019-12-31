@@ -1,0 +1,841 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CbmsEdm.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BusinessPartners">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Manager" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FundsPacks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Sum" Type="money" Nullable="false" />
+          <Property Name="State" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="PaymentDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceProducts">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BusinessPartnerID" Type="int" Nullable="false" />
+          <Property Name="FoundsPackID" Type="int" />
+          <Property Name="DepartmentID" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="IssueDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pending">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="PaymentDeadline" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'main.dbo.FullInvoices' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FullInvoices">
+          <Key>
+            <PropertyRef Name="BusinessPartner" />
+            <PropertyRef Name="Department" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IssueDate" />
+          </Key>
+          <Property Name="BusinessPartner" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FoundsPackID" Type="int" />
+          <Property Name="Department" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="IssueDate" Type="date" Nullable="false" />
+          <Property Name="PaymentDeadline" Type="date" />
+          <Property Name="PaymentDate" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'main.dbo.Investments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Investments">
+          <Key>
+            <PropertyRef Name="Deparment" />
+            <PropertyRef Name="Manager" />
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Sum" />
+            <PropertyRef Name="State" />
+          </Key>
+          <Property Name="Deparment" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Manager" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sum" Type="money" Nullable="false" />
+          <Property Name="State" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'main.dbo.Transactions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="Department" />
+            <PropertyRef Name="BusinessPartner" />
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IssueDate" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="ProductQuantity" />
+            <PropertyRef Name="ProductPrice" />
+          </Key>
+          <Property Name="Department" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BusinessPartner" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="IssueDate" Type="date" Nullable="false" />
+          <Property Name="PaymentDeadline" Type="date" />
+          <Property Name="PaymentDate" Type="date" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductQuantity" Type="int" Nullable="false" />
+          <Property Name="ProductPrice" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__FundsPack__Categ__34C8D9D1">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="FundsPacks" Type="Self.FundsPacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FundsPacks">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FundsPack__State__33D4B598">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="FundsPacks" Type="Self.FundsPacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FundsPacks">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__History__Invoice__3E52440B">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoicePr__Invoi__45F365D3">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="InvoiceProducts" Type="Self.InvoiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceProducts">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoicePr__Produ__46E78A0C">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="InvoiceProducts" Type="Self.InvoiceProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceProducts">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invoices__Busine__398D8EEE">
+          <End Role="BusinessPartners" Type="Self.BusinessPartners" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessPartners">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="BusinessPartnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invoices__Depart__3B75D760">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invoices__Founds__3A81B327">
+          <End Role="FundsPacks" Type="Self.FundsPacks" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FundsPacks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="FoundsPackID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pending__Invoice__412EB0B6">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="Pending" Type="Self.Pending" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pending">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Catego__2F10007B">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="areDatesIntegral" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
+          <Parameter Name="invoiceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="invoiceExists" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
+          <Parameter Name="invoiceNumber" Type="int" Mode="In" />
+          <Parameter Name="invoiceDate" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="CbmsEdmStoreContainer">
+          <EntitySet Name="BusinessPartners" EntityType="Self.BusinessPartners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FundsPacks" EntityType="Self.FundsPacks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceProducts" EntityType="Self.InvoiceProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pending" EntityType="Self.Pending" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FullInvoices" EntityType="Self.FullInvoices" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FullInvoices].[BusinessPartner] AS [BusinessPartner], 
+    [FullInvoices].[FoundsPackID] AS [FoundsPackID], 
+    [FullInvoices].[Department] AS [Department], 
+    [FullInvoices].[Number] AS [Number], 
+    [FullInvoices].[Type] AS [Type], 
+    [FullInvoices].[IssueDate] AS [IssueDate], 
+    [FullInvoices].[PaymentDeadline] AS [PaymentDeadline], 
+    [FullInvoices].[PaymentDate] AS [PaymentDate]
+    FROM [dbo].[FullInvoices] AS [FullInvoices]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Investments" EntityType="Self.Investments" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Investments].[Deparment] AS [Deparment], 
+    [Investments].[Manager] AS [Manager], 
+    [Investments].[Category] AS [Category], 
+    [Investments].[Sum] AS [Sum], 
+    [Investments].[State] AS [State]
+    FROM [dbo].[Investments] AS [Investments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Transactions].[Department] AS [Department], 
+    [Transactions].[BusinessPartner] AS [BusinessPartner], 
+    [Transactions].[Category] AS [Category], 
+    [Transactions].[Type] AS [Type], 
+    [Transactions].[IssueDate] AS [IssueDate], 
+    [Transactions].[PaymentDeadline] AS [PaymentDeadline], 
+    [Transactions].[PaymentDate] AS [PaymentDate], 
+    [Transactions].[ProductName] AS [ProductName], 
+    [Transactions].[ProductQuantity] AS [ProductQuantity], 
+    [Transactions].[ProductPrice] AS [ProductPrice]
+    FROM [dbo].[Transactions] AS [Transactions]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__FundsPack__Categ__34C8D9D1" Association="Self.FK__FundsPack__Categ__34C8D9D1">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="FundsPacks" EntitySet="FundsPacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FundsPack__State__33D4B598" Association="Self.FK__FundsPack__State__33D4B598">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="FundsPacks" EntitySet="FundsPacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__History__Invoice__3E52440B" Association="Self.FK__History__Invoice__3E52440B">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoicePr__Invoi__45F365D3" Association="Self.FK__InvoicePr__Invoi__45F365D3">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceProducts" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoicePr__Produ__46E78A0C" Association="Self.FK__InvoicePr__Produ__46E78A0C">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="InvoiceProducts" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invoices__Busine__398D8EEE" Association="Self.FK__Invoices__Busine__398D8EEE">
+            <End Role="BusinessPartners" EntitySet="BusinessPartners" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invoices__Depart__3B75D760" Association="Self.FK__Invoices__Depart__3B75D760">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invoices__Founds__3A81B327" Association="Self.FK__Invoices__Founds__3A81B327">
+            <End Role="FundsPacks" EntitySet="FundsPacks" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pending__Invoice__412EB0B6" Association="Self.FK__Pending__Invoice__412EB0B6">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="Pending" EntitySet="Pending" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Catego__2F10007B" Association="Self.FK__Products__Catego__2F10007B">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CbmsEdm" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BusinessPartner">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoices__Busine__398D8EEE" FromRole="BusinessPartners" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FundsPacks" Relationship="Self.FK__FundsPack__Categ__34C8D9D1" FromRole="Categories" ToRole="FundsPacks" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Products__Catego__2F10007B" FromRole="Categories" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FundsPacks" Relationship="Self.FK__FundsPack__State__33D4B598" FromRole="Departments" ToRole="FundsPacks" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoices__Depart__3B75D760" FromRole="Departments" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="FundsPack">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Sum" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__FundsPack__Categ__34C8D9D1" FromRole="FundsPacks" ToRole="Categories" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__FundsPack__State__33D4B598" FromRole="FundsPacks" ToRole="Departments" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoices__Founds__3A81B327" FromRole="FundsPacks" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK__History__Invoice__3E52440B" FromRole="History" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="InvoiceProduct">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK__InvoicePr__Invoi__45F365D3" FromRole="InvoiceProducts" ToRole="Invoices" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__InvoicePr__Produ__46E78A0C" FromRole="InvoiceProducts" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BusinessPartnerID" Type="Int32" Nullable="false" />
+          <Property Name="FoundsPackID" Type="Int32" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="BusinessPartner" Relationship="Self.FK__Invoices__Busine__398D8EEE" FromRole="Invoices" ToRole="BusinessPartners" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Invoices__Depart__3B75D760" FromRole="Invoices" ToRole="Departments" />
+          <NavigationProperty Name="FundsPack" Relationship="Self.FK__Invoices__Founds__3A81B327" FromRole="Invoices" ToRole="FundsPacks" />
+          <NavigationProperty Name="History" Relationship="Self.FK__History__Invoice__3E52440B" FromRole="Invoices" ToRole="History" />
+          <NavigationProperty Name="InvoiceProducts" Relationship="Self.FK__InvoicePr__Invoi__45F365D3" FromRole="Invoices" ToRole="InvoiceProducts" />
+          <NavigationProperty Name="Pending" Relationship="Self.FK__Pending__Invoice__412EB0B6" FromRole="Invoices" ToRole="Pending" />
+        </EntityType>
+        <EntityType Name="Pending">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentDeadline" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK__Pending__Invoice__412EB0B6" FromRole="Pending" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Products__Catego__2F10007B" FromRole="Products" ToRole="Categories" />
+          <NavigationProperty Name="InvoiceProducts" Relationship="Self.FK__InvoicePr__Produ__46E78A0C" FromRole="Products" ToRole="InvoiceProducts" />
+        </EntityType>
+        <EntityType Name="FullInvoice">
+          <Key>
+            <PropertyRef Name="BusinessPartner" />
+            <PropertyRef Name="Department" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IssueDate" />
+          </Key>
+          <Property Name="BusinessPartner" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FoundsPackID" Type="Int32" />
+          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PaymentDeadline" Type="DateTime" Precision="0" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Investment">
+          <Key>
+            <PropertyRef Name="Deparment" />
+            <PropertyRef Name="Manager" />
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Sum" />
+            <PropertyRef Name="State" />
+          </Key>
+          <Property Name="Deparment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sum" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Department" />
+            <PropertyRef Name="BusinessPartner" />
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IssueDate" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="ProductQuantity" />
+            <PropertyRef Name="ProductPrice" />
+          </Key>
+          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BusinessPartner" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PaymentDeadline" Type="DateTime" Precision="0" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductQuantity" Type="Int32" Nullable="false" />
+          <Property Name="ProductPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Invoices__Busine__398D8EEE">
+          <End Role="BusinessPartners" Type="Self.BusinessPartner" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessPartners">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="BusinessPartnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FundsPack__Categ__34C8D9D1">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="FundsPacks" Type="Self.FundsPack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FundsPacks">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Catego__2F10007B">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FundsPack__State__33D4B598">
+          <End Role="Departments" Type="Self.Department" Multiplicity="1" />
+          <End Role="FundsPacks" Type="Self.FundsPack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FundsPacks">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invoices__Depart__3B75D760">
+          <End Role="Departments" Type="Self.Department" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Invoices__Founds__3A81B327">
+          <End Role="FundsPacks" Type="Self.FundsPack" Multiplicity="0..1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FundsPacks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="FoundsPackID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__History__Invoice__3E52440B">
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoicePr__Invoi__45F365D3">
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceProducts" Type="Self.InvoiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceProducts">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoicePr__Produ__46E78A0C">
+          <End Role="Products" Type="Self.Product" Multiplicity="1" />
+          <End Role="InvoiceProducts" Type="Self.InvoiceProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InvoiceProducts">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pending__Invoice__412EB0B6">
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="Pending" Type="Self.Pending" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pending">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="cbmsMainDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BusinessPartners" EntityType="Self.BusinessPartner" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="FundsPacks" EntityType="Self.FundsPack" />
+          <EntitySet Name="Histories" EntityType="Self.History" />
+          <EntitySet Name="InvoiceProducts" EntityType="Self.InvoiceProduct" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="Pendings" EntityType="Self.Pending" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="FullInvoices" EntityType="Self.FullInvoice" />
+          <EntitySet Name="Investments" EntityType="Self.Investment" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <AssociationSet Name="FK__Invoices__Busine__398D8EEE" Association="Self.FK__Invoices__Busine__398D8EEE">
+            <End Role="BusinessPartners" EntitySet="BusinessPartners" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FundsPack__Categ__34C8D9D1" Association="Self.FK__FundsPack__Categ__34C8D9D1">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="FundsPacks" EntitySet="FundsPacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Catego__2F10007B" Association="Self.FK__Products__Catego__2F10007B">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FundsPack__State__33D4B598" Association="Self.FK__FundsPack__State__33D4B598">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="FundsPacks" EntitySet="FundsPacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invoices__Depart__3B75D760" Association="Self.FK__Invoices__Depart__3B75D760">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Invoices__Founds__3A81B327" Association="Self.FK__Invoices__Founds__3A81B327">
+            <End Role="FundsPacks" EntitySet="FundsPacks" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__History__Invoice__3E52440B" Association="Self.FK__History__Invoice__3E52440B">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoicePr__Invoi__45F365D3" Association="Self.FK__InvoicePr__Invoi__45F365D3">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceProducts" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoicePr__Produ__46E78A0C" Association="Self.FK__InvoicePr__Produ__46E78A0C">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="InvoiceProducts" EntitySet="InvoiceProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pending__Invoice__412EB0B6" Association="Self.FK__Pending__Invoice__412EB0B6">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="Pending" EntitySet="Pendings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CbmsEdmStoreContainer" CdmEntityContainer="cbmsMainDBEntities">
+          <EntitySetMapping Name="BusinessPartners">
+            <EntityTypeMapping TypeName="CbmsEdm.BusinessPartner">
+              <MappingFragment StoreEntitySet="BusinessPartners">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="CbmsEdm.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="CbmsEdm.Department">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FundsPacks">
+            <EntityTypeMapping TypeName="CbmsEdm.FundsPack">
+              <MappingFragment StoreEntitySet="FundsPacks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Histories">
+            <EntityTypeMapping TypeName="CbmsEdm.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceProducts">
+            <EntityTypeMapping TypeName="CbmsEdm.InvoiceProduct">
+              <MappingFragment StoreEntitySet="InvoiceProducts">
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="CbmsEdm.Invoice">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BusinessPartnerID" ColumnName="BusinessPartnerID" />
+                <ScalarProperty Name="FoundsPackID" ColumnName="FoundsPackID" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pendings">
+            <EntityTypeMapping TypeName="CbmsEdm.Pending">
+              <MappingFragment StoreEntitySet="Pending">
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="PaymentDeadline" ColumnName="PaymentDeadline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="CbmsEdm.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FullInvoices">
+            <EntityTypeMapping TypeName="CbmsEdm.FullInvoice">
+              <MappingFragment StoreEntitySet="FullInvoices">
+                <ScalarProperty Name="BusinessPartner" ColumnName="BusinessPartner" />
+                <ScalarProperty Name="FoundsPackID" ColumnName="FoundsPackID" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="PaymentDeadline" ColumnName="PaymentDeadline" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Investments">
+            <EntityTypeMapping TypeName="CbmsEdm.Investment">
+              <MappingFragment StoreEntitySet="Investments">
+                <ScalarProperty Name="Deparment" ColumnName="Deparment" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="CbmsEdm.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="BusinessPartner" ColumnName="BusinessPartner" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="PaymentDeadline" ColumnName="PaymentDeadline" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
