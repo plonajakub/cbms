@@ -3,6 +3,7 @@ CREATE USER app FOR LOGIN app
 GO
 
 -- GRANT PERMISSIONS --
+-- Tables --
 GRANT SELECT, INSERT, UPDATE ON Invoices TO app
 GO
 
@@ -28,4 +29,21 @@ GRANT SELECT, INSERT, UPDATE ON FundsPacks TO app
 GO
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON InvoiceProducts TO app
+GO
+
+-- Views --
+GRANT SELECT ON FullInvoices TO app
+GO
+
+GRANT SELECT ON Investments TO app
+GO
+
+GRANT SELECT ON Transactions TO app
+GO
+
+-- Stored procedures --
+GRANT EXECUTE ON areDatesIntegral TO app
+GO
+
+GRANT EXECUTE ON invoiceExists TO app
 GO
