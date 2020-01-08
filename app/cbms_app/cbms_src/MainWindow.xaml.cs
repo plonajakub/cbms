@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using cbms_src.backend;
 
 namespace cbms_src
 {
@@ -20,9 +21,12 @@ namespace cbms_src
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly DataProvider _dp = new DataProvider();
+
         public MainWindow()
         {
             InitializeComponent();
+            _dp.Run();
         }
     }
 }
