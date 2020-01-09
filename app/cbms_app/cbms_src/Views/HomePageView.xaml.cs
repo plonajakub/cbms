@@ -12,21 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using cbms_src.backend;
 
-namespace cbms_src
+namespace cbms_src.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logika interakcji dla klasy HomePageView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class HomePageView : UserControl
     {
-        private readonly DataProvider _dp = new DataProvider();
-
-        public MainWindow()
+        public HomePageView()
         {
             InitializeComponent();
-            _dp.Run();
         }
     }
 }
