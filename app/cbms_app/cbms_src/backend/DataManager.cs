@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,130 +9,90 @@ namespace CbmsSrc.Backend
 {
     public class DataManager
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="invoice">New Invoice object to insert into database</param>
-        public void AddInvoice(Invoice invoice)
+
+        public static CbmsMainDbEntities Context => new CbmsMainDbEntities();
+
+        public static void SaveToDb(CbmsMainDbEntities context) => context.SaveChanges();
+
+
+        public void AddInvoice(CbmsMainDbEntities context, Invoice invoice)
         {
-            using (var ctx = new CbmsMainDbEntities())
+            context.Invoices.Add(invoice);
+        }
+
+
+        public void UpdateInvoice(CbmsMainDbEntities context, Invoice newInvoice)
+        {
+            var oldInvoice = context.Invoices.First(i => i.ID == newInvoice.ID);
+
+            if (!oldInvoice.BusinessPartnerID.Equals(newInvoice.BusinessPartnerID))
             {
-                ctx.Invoices.Add(invoice);
-                ctx.SaveChanges();
+                oldInvoice.BusinessPartnerID = newInvoice.BusinessPartnerID;
+            }
+
+            if (!oldInvoice.FoundsPackID.Equals(newInvoice.FoundsPackID))
+            {
+                oldInvoice.FoundsPackID = newInvoice.FoundsPackID;
+            }
+
+            if (!oldInvoice.DepartmentID.Equals(newInvoice.DepartmentID))
+            {
+                oldInvoice.DepartmentID = newInvoice.DepartmentID;
+            }
+
+            if (!oldInvoice.Number.Equals(newInvoice.Number))
+            {
+                oldInvoice.Number = newInvoice.Number;
+            }
+
+            if (!oldInvoice.Type.Equals(newInvoice.Type))
+            {
+                oldInvoice.Type = newInvoice.Type;
+            }
+
+            if (!oldInvoice.IssueDate.Equals(newInvoice.IssueDate))
+            {
+                oldInvoice.IssueDate = newInvoice.IssueDate;
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="newInvoice">Existing in database object with some properties modified</param>
-        public void UpdateInvoice(Invoice newInvoice)
+
+        public void DeleteInvoice(CbmsMainDbEntities context, int invoiceID)
         {
-            using (var ctx = new CbmsMainDbEntities())
-            {
-                var oldInvoice = ctx.Invoices.First(i => i.ID == newInvoice.ID);
-
-                if (!oldInvoice.BusinessPartnerID.Equals(newInvoice.BusinessPartnerID))
-                {
-                    oldInvoice.BusinessPartnerID = newInvoice.BusinessPartnerID;
-                }
-
-                if (!oldInvoice.FoundsPackID.Equals(newInvoice.FoundsPackID))
-                {
-                    oldInvoice.FoundsPackID = newInvoice.FoundsPackID;
-                }
-
-                if (!oldInvoice.DepartmentID.Equals(newInvoice.DepartmentID))
-                {
-                    oldInvoice.DepartmentID = newInvoice.DepartmentID;
-                }
-
-                if (!oldInvoice.Number.Equals(newInvoice.Number))
-                {
-                    oldInvoice.Number = newInvoice.Number;
-                }
-
-                if (!oldInvoice.Type.Equals(newInvoice.Type))
-                {
-                    oldInvoice.Type = newInvoice.Type;
-                }
-
-                if (!oldInvoice.IssueDate.Equals(newInvoice.IssueDate))
-                {
-                    oldInvoice.IssueDate = newInvoice.IssueDate;
-                }
-
-                ctx.SaveChanges();
-            }
+            var invoiceToDelete = context.Invoices.First(i => i.ID == invoiceID);
+            context.Invoices.Remove(invoiceToDelete);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="invoiceID">ID of existing in database invoice</param>
-        public void DeleteInvoice(int invoiceID)
+
+        public void AddInvoiceProduct(CbmsMainDbEntities context, InvoiceProduct invoiceProduct)
         {
-            using (var ctx = new CbmsMainDbEntities())
-            {
-                var invoiceToDelete = ctx.Invoices.First(i => i.ID == invoiceID);
-                ctx.Invoices.Remove(invoiceToDelete);
-                ctx.SaveChanges();
-            }
+            context.InvoiceProducts.Add(invoiceProduct);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="invoiceProduct">New InvoiceProduct object to insert into database</param>
-        public void AddInvoiceProduct(InvoiceProduct invoiceProduct)
-        {
-            using (var ctx = new CbmsMainDbEntities())
-            {
-                ctx.InvoiceProducts.Add(invoiceProduct);
-                ctx.SaveChanges();
-            }
-        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="newInvoiceProduct">Existing in database object with some properties modified</param>
-        public void UpdateInvoiceProduct(InvoiceProduct newInvoiceProduct)
+        public void UpdateInvoiceProduct(CbmsMainDbEntities context, InvoiceProduct newInvoiceProduct)
         {
-            using (var ctx = new CbmsMainDbEntities())
-            {
-                var oldInvoiceProduct = ctx.InvoiceProducts
+            var oldInvoiceProduct = context.InvoiceProducts
                     .First(ip =>
                         ip.InvoiceID == newInvoiceProduct.InvoiceID && ip.ProductID == newInvoiceProduct.ProductID);
 
-                if (!oldInvoiceProduct.Quantity.Equals(newInvoiceProduct.Quantity))
-                {
-                    oldInvoiceProduct.Quantity = newInvoiceProduct.Quantity;
-                }
+            if (!oldInvoiceProduct.Quantity.Equals(newInvoiceProduct.Quantity))
+            {
+                oldInvoiceProduct.Quantity = newInvoiceProduct.Quantity;
+            }
 
-                if (!oldInvoiceProduct.Price.Equals(newInvoiceProduct.Price))
-                {
-                    oldInvoiceProduct.Price = newInvoiceProduct.Price;
-                }
-
-                ctx.SaveChanges();
+            if (!oldInvoiceProduct.Price.Equals(newInvoiceProduct.Price))
+            {
+                oldInvoiceProduct.Price = newInvoiceProduct.Price;
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="invoiceID">ID of existing in database invoice (part of compound key)</param>
-        /// <param name="productID">ID of existing in database product (part of compound key)</param>
-        public void DeleteInvoiceProduct(int invoiceID, int productID)
+
+        public void DeleteInvoiceProduct(CbmsMainDbEntities context, int invoiceID, int productID)
         {
-            using (var ctx = new CbmsMainDbEntities())
-            {
-                var invoiceProductToDelete = ctx.InvoiceProducts
-                    .First(ip => ip.InvoiceID == invoiceID && ip.ProductID == productID);
-                ctx.InvoiceProducts.Remove(invoiceProductToDelete);
-                ctx.SaveChanges();
-            }
+            var invoiceProductToDelete = context.InvoiceProducts
+                .First(ip => ip.InvoiceID == invoiceID && ip.ProductID == productID);
+            context.InvoiceProducts.Remove(invoiceProductToDelete);
         }
     }
 }
