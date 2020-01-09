@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cbms_src.ViewModels
+namespace CbmsSrc.ViewModels
 {
     class InvoicesPageViewModel : Screen
     {

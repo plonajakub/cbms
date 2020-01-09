@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace cbms_src.Views
+namespace CbmsSrc.Views
 {
     /// <summary>
     /// Logika interakcji dla klasy InvoicesPageView.xaml

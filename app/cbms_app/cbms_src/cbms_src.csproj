@@ -77,8 +77,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="backend\BusinessLogic.cs" />
-    <Compile Include="backend\DataManager.cs" />
+    <Compile Include="Backend\BusinessLogic.cs" />
+    <Compile Include="Backend\DataManager.cs" />
     <Compile Include="BusinessPartner.cs">
       <DependentUpon>CbmsEdm.tt</DependentUpon>
     </Compile>
@@ -176,6 +176,7 @@
     <EntityDeploy Include="CbmsEdm.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CbmsEdm.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>CbmsSrc</CustomToolNamespace>
     </EntityDeploy>
     <None Include="CbmsEdm.edmx.diagram">
       <DependentUpon>CbmsEdm.edmx</DependentUpon>
@@ -194,11 +195,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CbmsEdm.Context.cs</LastGenOutput>
       <DependentUpon>CbmsEdm.edmx</DependentUpon>
+      <CustomToolNamespace>CbmsSrc</CustomToolNamespace>
     </Content>
     <Content Include="CbmsEdm.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CbmsEdm.edmx</DependentUpon>
       <LastGenOutput>CbmsEdm.cs</LastGenOutput>
+      <CustomToolNamespace>CbmsSrc</CustomToolNamespace>
     </Content>
   </ItemGroup>
   <ItemGroup>

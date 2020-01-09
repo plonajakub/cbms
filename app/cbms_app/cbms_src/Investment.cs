@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace cbms_src
+namespace CbmsSrc
 {
     using System;
     using System.Collections.Generic;

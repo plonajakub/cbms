@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace cbms_src.Views
+namespace CbmsSrc.Views
 {
     /// <summary>
     /// Logika interakcji dla klasy ShellView.xaml

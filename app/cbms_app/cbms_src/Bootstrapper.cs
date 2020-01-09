@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using cbms_src.ViewModels;
+using CbmsSrc.ViewModels;
 
-namespace cbms_src
+namespace CbmsSrc
 {
     class Bootstrapper : BootstrapperBase
     {
