@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Backend\HelperStructs.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Backend\BusinessLogic.cs" />
     <Compile Include="Backend\DataService.cs" />
