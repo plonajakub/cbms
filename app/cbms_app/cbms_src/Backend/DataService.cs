@@ -1,10 +1,21 @@
 ﻿using System.Linq;
 
+
 namespace CbmsSrc.Backend
 {
     public class DataService
     {
-        private CbmsMainDbEntities _context;
+        private readonly CbmsMainDbEntities _context;
+
+        /// <summary>
+        /// Provides current EF context.
+        /// </summary>
+        /// <remarks>
+        /// Intended to be used only within DataService;
+        /// do not call Dispose() on Context manually.
+        /// </remarks>
+        public static CbmsMainDbEntities Context => new CbmsMainDbEntities();
+
 
         /// <summary>
         /// Default instantiation of class DataService;
@@ -15,10 +26,12 @@ namespace CbmsSrc.Backend
             _context = new CbmsMainDbEntities();
         }
 
+
         public DataService(CbmsMainDbEntities context)
         {
             _context = context;
         }
+
 
         /// <summary>
         /// Disposes _context.
@@ -28,14 +41,6 @@ namespace CbmsSrc.Backend
             _context.Dispose();
         }
 
-        /// <summary>
-        /// Provides current EF context.
-        /// </summary>
-        /// <remarks>
-        /// Intended to be used only withing DataService;
-        /// do not call Dispose() manually.
-        /// </remarks>
-        public static CbmsMainDbEntities Context => new CbmsMainDbEntities();
 
         /// <summary>
         /// Saves changes to the database.
@@ -51,6 +56,7 @@ namespace CbmsSrc.Backend
         {
             _context.Invoices.Add(invoice);
         }
+
 
         /// <summary>
         /// 
@@ -120,12 +126,66 @@ namespace CbmsSrc.Backend
         }
 
 
-
         public void DeleteInvoiceProduct(int invoiceID, int productID)
         {
             var invoiceProductToDelete = _context.InvoiceProducts
                 .First(ip => ip.InvoiceID == invoiceID && ip.ProductID == productID);
             _context.InvoiceProducts.Remove(invoiceProductToDelete);
         }
+
+
+        public void AddHistory(History history)
+        {
+            _context.Histories.Add(history);
+        }
+
+
+        public void AddPending(Pending pending)
+        {
+            _context.Pendings.Add(pending);
+        }
+
+
+        public void DeletePending(int invoiceID)
+        {
+            var pendingToDelete = _context.Pendings.First(p => p.InvoiceID == invoiceID);
+            _context.Pendings.Remove(pendingToDelete);
+        }
+
+
+        public void AddFundsPack(FundsPack fundsPack)
+        {
+            _context.FundsPacks.Add(fundsPack);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newFundsPack">Copy of an existing entity to update with some fields changed</param>
+        public void UpdateFundsPack(FundsPack newFundsPack)
+        {
+            var oldFundsPack = _context.FundsPacks.First(fp => fp.ID == newFundsPack.ID);
+
+            if (!oldFundsPack.DepartmentID.Equals(newFundsPack.DepartmentID))
+            {
+                oldFundsPack.DepartmentID = newFundsPack.DepartmentID;
+            }
+
+            if (!oldFundsPack.CategoryID.Equals(newFundsPack.CategoryID))
+            {
+                oldFundsPack.CategoryID = newFundsPack.CategoryID;
+            }
+
+            if (!oldFundsPack.Sum.Equals(newFundsPack.Sum))
+            {
+                oldFundsPack.Sum = newFundsPack.Sum;
+            }
+
+            if (!oldFundsPack.State.Equals(newFundsPack.State))
+            {
+                oldFundsPack.State = newFundsPack.State;
+            }
+        }
+
     }
 }
