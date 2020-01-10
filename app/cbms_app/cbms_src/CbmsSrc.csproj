@@ -78,7 +78,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Backend\BusinessLogic.cs" />
-    <Compile Include="Backend\DataManager.cs" />
+    <Compile Include="Backend\DataService.cs" />
     <Compile Include="BusinessPartner.cs">
       <DependentUpon>CbmsEdm.tt</DependentUpon>
     </Compile>

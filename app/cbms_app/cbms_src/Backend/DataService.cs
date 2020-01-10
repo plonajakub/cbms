@@ -1,44 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace CbmsSrc.Backend
 {
-    public class DataManager
+    public class DataService
     {
+        private CbmsMainDbEntities _context;
+
+        /// <summary>
+        /// Default instantiation of class DataService;
+        /// use this as a first choice.
+        /// </summary>
+        public DataService()
+        {
+            _context = new CbmsMainDbEntities();
+        }
+
+        public DataService(CbmsMainDbEntities context)
+        {
+            _context = context;
+        }
+
+        /// <summary>
+        /// Disposes _context.
+        /// </summary>
+        ~DataService()
+        {
+            _context.Dispose();
+        }
+
         /// <summary>
         /// Provides current EF context.
         /// </summary>
-        /// <remarks>Must be disposed.</remarks>
+        /// <remarks>
+        /// Intended to be used only withing DataService;
+        /// do not call Dispose() manually.
+        /// </remarks>
         public static CbmsMainDbEntities Context => new CbmsMainDbEntities();
 
         /// <summary>
         /// Saves changes to the database.
         /// </summary>
-        /// <param name="context">EF current context</param>
         /// <remarks>
         /// Must be called to save changes to the database; do it after executing
         /// set of operations on the DB.
         /// </remarks>
-        public static void SaveToDb(CbmsMainDbEntities context) => context.SaveChanges();
+        public void SaveToDb() => _context.SaveChanges();
 
 
-        public static void AddInvoice(CbmsMainDbEntities context, Invoice invoice)
+        public void AddInvoice(Invoice invoice)
         {
-            context.Invoices.Add(invoice);
+            _context.Invoices.Add(invoice);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="newInvoice">Copy of an existing entity to update with some fields changed</param>
-        public static void UpdateInvoice(CbmsMainDbEntities context, Invoice newInvoice)
+        public void UpdateInvoice(Invoice newInvoice)
         {
-            var oldInvoice = context.Invoices.First(i => i.ID == newInvoice.ID);
+            var oldInvoice = _context.Invoices.First(i => i.ID == newInvoice.ID);
 
             if (!oldInvoice.BusinessPartnerID.Equals(newInvoice.BusinessPartnerID))
             {
@@ -72,27 +92,19 @@ namespace CbmsSrc.Backend
         }
 
 
-        public static void DeleteInvoice(CbmsMainDbEntities context, int invoiceID)
+        public void AddInvoiceProduct(InvoiceProduct invoiceProduct)
         {
-            var invoiceToDelete = context.Invoices.First(i => i.ID == invoiceID);
-            context.Invoices.Remove(invoiceToDelete);
-        }
-
-
-        public static void AddInvoiceProduct(CbmsMainDbEntities context, InvoiceProduct invoiceProduct)
-        {
-            context.InvoiceProducts.Add(invoiceProduct);
+            _context.InvoiceProducts.Add(invoiceProduct);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="newInvoiceProduct">Copy of an existing entity to update with some fields changed</param>
-        public static void UpdateInvoiceProduct(CbmsMainDbEntities context, InvoiceProduct newInvoiceProduct)
+        public void UpdateInvoiceProduct(InvoiceProduct newInvoiceProduct)
         {
-            var oldInvoiceProduct = context.InvoiceProducts
+            var oldInvoiceProduct = _context.InvoiceProducts
                     .First(ip =>
                         ip.InvoiceID == newInvoiceProduct.InvoiceID && ip.ProductID == newInvoiceProduct.ProductID);
 
@@ -108,11 +120,12 @@ namespace CbmsSrc.Backend
         }
 
 
-        public static void DeleteInvoiceProduct(CbmsMainDbEntities context, int invoiceID, int productID)
+
+        public void DeleteInvoiceProduct(int invoiceID, int productID)
         {
-            var invoiceProductToDelete = context.InvoiceProducts
+            var invoiceProductToDelete = _context.InvoiceProducts
                 .First(ip => ip.InvoiceID == invoiceID && ip.ProductID == productID);
-            context.InvoiceProducts.Remove(invoiceProductToDelete);
+            _context.InvoiceProducts.Remove(invoiceProductToDelete);
         }
     }
 }
