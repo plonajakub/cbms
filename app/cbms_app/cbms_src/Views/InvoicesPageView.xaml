@@ -24,8 +24,14 @@
             <TextBlock Text="Wszystkie faktury"/>
             <Button Content="+" Margin="16,0,0,0"/>
         </StackPanel>
-
-        <ListBox>
+        <ListBox x:Name="InvoicesList"
+                 Grid.Row="1"
+                 Grid.Column="1"
+            Style="{StaticResource MaterialDesignCardsListBox}">
+            <ListBoxItem Content="Hello"/>
         </ListBox>
+
+
+
     </Grid>
 </UserControl>
