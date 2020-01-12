@@ -7,6 +7,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Aqua">
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="48"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel 
+            Orientation="Horizontal"
+            Grid.Row="0"
+            Grid.Column="1">
+
+            <TextBlock Text="Wszystkie faktury"/>
+            <Button Content="+" Margin="16,0,0,0"/>
+        </StackPanel>
+
+        <ListBox>
+        </ListBox>
     </Grid>
 </UserControl>
