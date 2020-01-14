@@ -225,13 +225,11 @@ namespace CbmsSrc.Backend
                 .ToList();
         }
 
-        public Dictionary<Category, List<Product>> GetAllProducts()
+        public List<Product> GetAllProducts()
         {
             return _context.Products
                 .OrderBy(p => p.Name)
-                .GroupBy(p => p.Category)
-                .OrderBy(g => g.Key)
-                .ToDictionary(g => g.Key, g => g.ToList());
+                .ToList();
         }
 
         private decimal GetFilteredFunds(Func<Transaction, bool> filter)
