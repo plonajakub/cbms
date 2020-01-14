@@ -46,5 +46,35 @@ namespace CbmsTest.Backend
             var allProducts = _dataService.GetAllProducts();
             Assert.IsNotNull(allProducts);
         }
+
+        [TestMethod]
+        public void Test_GetCurrentAccountBalance_AlternateCalculations()
+        {
+            var actualBalance = _dataService.GetCurrentAccountBalance();
+            decimal expectedBalance = 0;
+
+            var invoiceProductsAll = DataService.Context.InvoiceProducts.ToList();
+
+            foreach (var invoiceProduct in invoiceProductsAll)
+            {
+                if (invoiceProduct.Invoice.History == null) 
+                    continue;
+                if (invoiceProduct.Invoice.Type == InvoiceType.In)
+                {
+                    expectedBalance += invoiceProduct.Quantity * invoiceProduct.Price;
+                }
+                else if (invoiceProduct.Invoice.Type == InvoiceType.Out)
+                {
+                    expectedBalance -= invoiceProduct.Quantity * invoiceProduct.Price;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+
+            Assert.AreEqual(expectedBalance, actualBalance);
+            Assert.AreNotEqual(0, actualBalance);
+        }
     }
 }
