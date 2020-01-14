@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CbmsSrc.Backend;
 
 namespace CbmsSrc.ViewModels
 {
     class ShellViewModel : Conductor<object>
     {
+        DataService dataService;
+
         protected override void OnActivate()
         {
             base.OnActivate();
+            dataService = new DataService();
             HomeTab();
         }
         public void HomeTab()

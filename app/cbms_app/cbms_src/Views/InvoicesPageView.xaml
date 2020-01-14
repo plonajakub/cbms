@@ -22,13 +22,20 @@
             Grid.Column="1">
 
             <TextBlock Text="Wszystkie faktury"/>
-            <Button Content="+" Margin="16,0,0,0"/>
+            <Button x:Name="AddInvoice" Content="+" Margin="16,0,0,0"/>
         </StackPanel>
         <ListBox x:Name="InvoicesList"
                  Grid.Row="1"
                  Grid.Column="1"
             Style="{StaticResource MaterialDesignCardsListBox}">
-            <ListBoxItem Content="Hello"/>
+          <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Number}"/>
+                        <TextBlock Text="{Binding Type}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
 
