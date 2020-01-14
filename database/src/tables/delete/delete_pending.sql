@@ -1,1 +1,0 @@
-DELETE FROM Pending WHERE InvoiceID = 2;
