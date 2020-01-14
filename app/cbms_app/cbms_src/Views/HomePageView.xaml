@@ -25,7 +25,7 @@
             Text="Stan konta" 
             Grid.Row="1" 
             Grid.Column="1"/>
-        <TextBlock 
+        <TextBlock  x:Name ="AccountState"
             Text="Nie można załadować stanu" 
             Grid.Row="2" 
             Grid.Column="1" 
