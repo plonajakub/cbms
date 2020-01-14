@@ -31,7 +31,7 @@
             Grid.Column="1" 
             Margin="0,16,0,16"
             FontSize="24"/>
-        <TextBlock 
+        <TextBlock x:Name="FundsBlocked"
             Text="Nie można załadować stanu" 
             Grid.Row="3" 
             Grid.Column="1"/>
@@ -39,6 +39,17 @@
         <TextBlock Text="Analiza stanu konta" Grid.Row="4" Grid.Column="1"/>
 
         <TextBlock Text="Ostatnie transakcje" Grid.Row="1" Grid.Column="2"/>
+        <ListBox x:Name="LastTransactions"  Grid.Column="2" Grid.Row="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="ikona"/>
+                        <TextBox Text="Departament"></TextBox>
+                        <TextBox Text="Wartośc"></TextBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </UserControl>
