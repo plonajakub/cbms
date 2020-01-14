@@ -8,14 +8,34 @@ using CbmsSrc.Backend.Exceptions;
 
 namespace CbmsSrc.Backend
 {
-    public class DBValidationService
+    public static class DBValidationService
     {
         public static bool ValidateAddInvoiceWithProducts(CbmsMainDbEntities context, Invoice invoice,
             List<InvoiceProduct> invoiceProducts)
         {
             if (invoiceProducts.Any(invoiceProduct => invoiceProduct.InvoiceID != invoice.ID))
             {
-                throw new DBLogicException("Not all products belong to the supplied invoice.");
+                throw new DBLogicException("Nie wszystkie produkty należą do wprowadzanej faktury.");
+            }
+
+            return true;
+        }
+
+        public static bool ValidateAddHistory(CbmsMainDbEntities context, History history)
+        {
+            if (context.Pendings.FirstOrDefault(p => p.InvoiceID == history.InvoiceID) != null)
+            {
+                throw new DBLogicException("Faktura istnieje w bazie jako przetwarzana.");
+            }
+
+            return true;
+        }
+
+        public static bool ValidateAddPending(CbmsMainDbEntities context, Pending pending)
+        {
+            if (context.Histories.FirstOrDefault(h => h.InvoiceID == pending.InvoiceID) != null)
+            {
+                throw new DBLogicException("Faktura istnieje w bazie jako zaksięgowana.");
             }
 
             return true;

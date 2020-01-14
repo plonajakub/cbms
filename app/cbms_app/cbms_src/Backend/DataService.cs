@@ -149,12 +149,16 @@ namespace CbmsSrc.Backend
 
         public void AddHistory(History history)
         {
+            DBValidationService.ValidateAddHistory(_context, history);
+
             _context.Histories.Add(history);
         }
 
 
         public void AddPending(Pending pending)
         {
+            DBValidationService.ValidateAddPending(_context, pending);
+
             _context.Pendings.Add(pending);
         }
 
