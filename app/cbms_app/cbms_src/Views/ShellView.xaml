@@ -12,7 +12,8 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         mc:Ignorable="d"
         Title="ShellView" Height="450" Width="800">
-    <Grid>
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="MenuColumn" Width="48"/>
             <ColumnDefinition x:Name="BodyColumn" Width="*"/>
@@ -20,6 +21,7 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="ContentRow" Height="*"/>
         </Grid.RowDefinitions>
+        
         <Grid x:Name="MenuGrid" Grid.Row="0" Grid.Column="0" Background="DarkViolet">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -59,9 +61,12 @@
                     Margin="8" 
                     Padding="4" />
         </Grid>
-        <ContentControl x:Name="ActiveItem" 
-                        Grid.Row="0" 
-                        Grid.Column="1"/>
 
+
+
+        <ContentControl x:Name="ActiveItem" Grid.Row="0" 
+                        Grid.Column="1"/>
+        
     </Grid>
+    </materialDesign:DialogHost>
 </Window>

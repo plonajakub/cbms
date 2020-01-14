@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="CbmsSrc.Views.InvoiceDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CbmsSrc.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:cbmsSrc="clr-namespace:CbmsSrc"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+    <TextBlock>Nowa faktura:</TextBlock>
+    <TextBox materialDesign:HintAssist.Hint="Dane odbiorcy" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
+             Margin="0 6 0 0"
+             FontSize="18" Grid.Row="1">
+        <TextBox.Text>
+            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                <Binding.ValidationRules>
+                    <cbmsSrc:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                </Binding.ValidationRules>
+            </Binding>
+        </TextBox.Text>
+    </TextBox>
+    <TextBox materialDesign:HintAssist.Hint="Numer faktury " Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+             Margin="0 8 0 0"
+             FontSize="16" Grid.Row="1" Grid.Column="1"
+    />
+    <DatePicker
+        Width="100"
+        materialDesign:HintAssist.Hint="Pick Date"
+        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+        Grid.Row="2"/>
+
+    <DatePicker
+        x:Name="FutureDatePicker"
+        Width="100"
+        materialDesign:HintAssist.Hint="Future Date"
+        Grid.Row="2"
+        Grid.Column="1">
+        <DatePicker.SelectedDate>
+            <Binding
+                Path="FutureValidatingDate"
+                UpdateSourceTrigger="PropertyChanged">
+                <Binding.ValidationRules>
+                    <cbmsSrc:FutureDateValidationRule
+                        ValidatesOnTargetUpdated="True" />
+                </Binding.ValidationRules>
+            </Binding>
+        </DatePicker.SelectedDate>
+    </DatePicker>
+
+        <ItemsControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+
+        </ItemsControl>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Margin="0 16 0 0">
+        <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+            <Button.CommandParameter>
+                <system:Boolean>True</system:Boolean>
+            </Button.CommandParameter>
+            DODAJ
+        </Button>
+        <Button IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+            <Button.CommandParameter>
+                <system:Boolean>False</system:Boolean>
+            </Button.CommandParameter>
+            ANULUJ
+        </Button>
+    </StackPanel>
+    </Grid>
+</UserControl>
