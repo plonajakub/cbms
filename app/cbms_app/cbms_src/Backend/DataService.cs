@@ -264,6 +264,16 @@ namespace CbmsSrc.Backend
                 .ToList();
         }
 
+        public List<Tuple<Invoice, decimal>> GetLastInvoicesWithBalance(int quantity)
+        {
+            var fetchedInvoices = GetLastInvoices(quantity);
+            return fetchedInvoices
+                .Select(invoice => new Tuple<Invoice, decimal>(
+                    invoice,
+                    invoice.InvoiceProducts.Sum(ip => ip.Quantity * ip.Price)))
+                .ToList();
+        }
+
 
         public decimal GetFundsInvestedThisMonth()
         {
