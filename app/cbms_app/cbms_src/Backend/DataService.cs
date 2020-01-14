@@ -248,10 +248,13 @@ namespace CbmsSrc.Backend
                 .Sum();
         }
 
+        // On account
         public decimal GetCurrentAccountBalance() => GetFilteredFunds(t => t.PaymentDate != null);
 
+        // Going onto account (can be cancelled)
         public decimal GetPendingFunds() => GetFilteredFunds(t => t.PaymentDeadline != null);
 
+        // Planned (not processed yet)
         public decimal GetPlannedFunds() => GetFilteredFunds(t => t.PaymentDate == null && t.PaymentDeadline == null);
 
 
@@ -287,7 +290,7 @@ namespace CbmsSrc.Backend
                 .ToList();
         }
 
-
+        
         public decimal GetFundsInvestedThisMonth()
         {
             var lowerMonthLimit = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -297,7 +300,8 @@ namespace CbmsSrc.Backend
             return _context.InvoiceProducts
                 .Where(ip => ip.Invoice.FundsPack != null
                              && ip.Invoice.FundsPack.State == FundsPackState.Fin
-                             && ip.Invoice.IssueDate >= lowerMonthLimit)
+                             && ip.Invoice.History != null
+                             && ip.Invoice.History.PaymentDate >= lowerMonthLimit)
                 .GroupBy(ip => ip.Invoice.Type)
                 .Select(g => new
                 {
