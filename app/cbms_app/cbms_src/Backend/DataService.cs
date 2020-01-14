@@ -319,8 +319,8 @@ namespace CbmsSrc.Backend
             for (; filterDate <= DateTime.Now; filterDate = filterDate.AddMonths(1))
             {
                 accountHistory.Add(filterDate,
-                    GetFilteredFunds(t => t.IssueDate >= filterDate && t.IssueDate < filterDate.AddMonths(1)
-                                          && t.PaymentDate != null));
+                    GetFilteredFunds(t => t.PaymentDate != null &&
+                                         t.PaymentDate >= filterDate && t.PaymentDate < filterDate.AddMonths(1)));
             }
             return accountHistory;
         }
