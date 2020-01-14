@@ -282,7 +282,9 @@ namespace CbmsSrc.Backend
             var sumFunc = new Func<InvoiceProduct, decimal>(ip => ip.Quantity * ip.Price);
 
             return _context.InvoiceProducts
-                .Where(ip => ip.Invoice.FundsPack != null && ip.Invoice.IssueDate >= lowerMonthLimit)
+                .Where(ip => ip.Invoice.FundsPack != null
+                             && ip.Invoice.FundsPack.State == FundsPackState.Fin
+                             && ip.Invoice.IssueDate >= lowerMonthLimit)
                 .GroupBy(ip => ip.Invoice.Type)
                 .Select(g => new
                 {
