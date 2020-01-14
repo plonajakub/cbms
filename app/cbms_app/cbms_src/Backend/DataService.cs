@@ -325,6 +325,13 @@ namespace CbmsSrc.Backend
             return accountHistory;
         }
 
+        public List<FundsPack> GetLastFundsPacks(int quantity)
+        {
+            return _context.FundsPacks
+                .OrderBy(fp => fp.State)
+                .Take(quantity)
+                .ToList();
+        }
 
         public Dictionary<Category, decimal> GetSpendingsThisMonth()
         {
