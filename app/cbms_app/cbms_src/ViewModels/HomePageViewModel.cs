@@ -12,6 +12,16 @@ namespace CbmsSrc.ViewModels
     {
         DataService dataService;
         decimal _accountState;
+        private decimal _fundsBlocked;
+        public decimal FundsBlocked
+        {
+            get { return _fundsBlocked; }
+            set
+            {
+                _fundsBlocked = value;
+                NotifyOfPropertyChange(() => FundsBlocked);
+            }
+        }
 
         public decimal AccountState
         {
