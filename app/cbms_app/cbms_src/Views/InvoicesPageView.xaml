@@ -7,6 +7,70 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Aqua">
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="48"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel 
+            Orientation="Horizontal"
+            Grid.Row="0"
+            Grid.Column="1">
+
+            <TextBlock Text="Wszystkie faktury"/>
+            <Button x:Name="AddInvoice" Content="+" Margin="16,0,0,0"/>
+        </StackPanel>
+        <ListBox x:Name="InvoicesList"
+                 Grid.Row="1"
+                 Grid.Column="1"
+            Style="{StaticResource MaterialDesignCardsListBox}">
+          <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2">
+                            <TextBlock></TextBlock>
+                            <TextBlock Text="Oczekująca/Opłacona"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" 
+                                    Grid.Column="1"
+                                    Grid.Row="1">
+                            <TextBlock Text="Klient"/>
+                            <TextBlock Text="{Binding BusinessPartner.Name}"/>
+                            <TextBlock Text="Nr faktury"/>
+                            <TextBlock Text="{Binding Number}"/>
+                            <TextBlock Text="Data wystawienia"/>
+                            <TextBlock Text="{Binding IssueDate}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Grid.Column="2"
+                                    Grid.Row="1">
+                            <TextBlock Text="Kwota"/>
+                            <TextBlock Text="price"/>
+                            <TextBlock Text="Termin płatności"/>
+                            <TextBlock Text="{Binding History.PaymentDate}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
+
     </Grid>
 </UserControl>

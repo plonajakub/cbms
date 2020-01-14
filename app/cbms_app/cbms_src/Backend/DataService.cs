@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace CbmsSrc.Backend
@@ -187,5 +189,121 @@ namespace CbmsSrc.Backend
             }
         }
 
+        public List<Department> GetAllDepartments()
+        {
+            return _context.Departments
+                .OrderBy(d => d.Name)
+                .ToList();
+        }
+
+        public List<BusinessPartner> GetAllBusinessPartners()
+        {
+            return _context.BusinessPartners
+                .OrderBy(bp => bp.Name)
+                .ToList();
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            return _context.Categories
+                .OrderBy(c => c.Name)
+                .ToList();
+        }
+
+        public Dictionary<Category, List<Product>> GetAllProducts()
+        {
+            return _context.Products
+                .OrderBy(p => p.Name)
+                .GroupBy(p => p.Category)
+                .OrderBy(g => g.Key)
+                .ToDictionary(g => g.Key, g => g.ToList());
+        }
+
+        private decimal GetFilteredFunds(Func<Transaction, bool> filter)
+        {
+            var sumFunc = new Func<Transaction, decimal>(t => t.ProductQuantity * t.ProductPrice);
+
+            return _context.Transactions
+                .Where(filter)
+                .GroupBy(t => t.Type)
+                .Select(g => new
+                {
+                    incoms = (g.Key == InvoiceType.In) ? g.Sum(sumFunc) : 0,
+                    outcoms = (g.Key == InvoiceType.Out) ? g.Sum(sumFunc) : 0,
+                })
+                .Select(g => g.incoms - g.outcoms)
+                .Sum();
+        }
+
+        public decimal GetCurrentAccountBalance() => GetFilteredFunds(t => t.PaymentDate != null);
+
+        public decimal GetPendingFunds() => GetFilteredFunds(t => t.PaymentDeadline != null);
+
+        public decimal GetPlannedFunds() => GetFilteredFunds(t => t.PaymentDate == null && t.PaymentDeadline == null);
+
+
+
+        private decimal GetFilteredInvestedFunds(Func<Investment, bool> filter)
+        {
+            return _context.Investments
+                .Where(filter)
+                .Sum(i => i.Sum);
+        }
+
+        public decimal GetFundsBlockedForInvestments()
+        {
+            return GetFilteredInvestedFunds(i => i.State == FundsPackState.Add);
+        }
+
+
+        public List<Invoice> GetLastInvoices(int quantity)
+        {
+            return _context.Invoices
+                .OrderByDescending(i => i.IssueDate)
+                .Take(quantity)
+                .ToList();
+        }
+
+
+        public decimal GetFundsInvestedThisMonth()
+        {
+            var lowerMonthLimit = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+            var sumFunc = new Func<InvoiceProduct, decimal>(ip => ip.Quantity * ip.Price);
+
+            return _context.InvoiceProducts
+                .Where(ip => ip.Invoice.FundsPack != null && ip.Invoice.IssueDate >= lowerMonthLimit)
+                .GroupBy(ip => ip.Invoice.Type)
+                .Select(g => new
+                {
+                    incoms = (g.Key == InvoiceType.In) ? g.Sum(sumFunc) : 0,
+                    outcoms = (g.Key == InvoiceType.Out) ? g.Sum(sumFunc) : 0,
+                })
+                .Select(g => g.incoms - g.outcoms)
+                .Sum();
+        }
+
+
+        // One year
+        public SortedDictionary<DateTime, decimal> GetHistoricalAccountBalance()
+        {
+            var accountHistory = new SortedDictionary<DateTime, decimal>();
+
+            var filterDate = new DateTime(DateTime.Now.AddYears(-1).Year, DateTime.Now.Month, 1);
+
+            for (; filterDate <= DateTime.Now; filterDate = filterDate.AddMonths(1))
+            {
+                accountHistory.Add(filterDate,
+                    GetFilteredFunds(t => t.IssueDate >= filterDate && t.IssueDate < filterDate.AddMonths(1)
+                                          && t.PaymentDate != null));
+            }
+            return accountHistory;
+        }
+
+
+        public Dictionary<Category, decimal> GetSpendingsThisMonth()
+        {
+            return null;
+        }
     }
 }
