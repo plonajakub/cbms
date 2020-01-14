@@ -85,9 +85,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AnotherCommandImplementation.cs" />
+    <Compile Include="Backend\Exceptions\DBLogicException.cs" />
     <Compile Include="Backend\HelperStructs.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Backend\ValidationService.cs" />
+    <Compile Include="Backend\DBValidationService.cs" />
     <Compile Include="Backend\DataService.cs" />
     <Compile Include="BusinessPartner.cs">
       <DependentUpon>CbmsEdm.tt</DependentUpon>

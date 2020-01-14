@@ -135,6 +135,17 @@ namespace CbmsSrc.Backend
             _context.InvoiceProducts.Remove(invoiceProductToDelete);
         }
 
+        public void AddInvoiceWithProducts(Invoice invoice, List<InvoiceProduct> invoiceProducts)
+        {
+            DBValidationService.ValidateAddInvoiceWithProducts(_context, invoice, invoiceProducts);
+
+            this.AddInvoice(invoice);
+            foreach (var invoiceProduct in invoiceProducts)
+            {
+                this.AddInvoiceProduct(invoiceProduct);
+            }
+        }
+
 
         public void AddHistory(History history)
         {
