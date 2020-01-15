@@ -13,11 +13,10 @@ namespace CbmsSrc.Backend
         public static bool ValidateAddInvoiceWithProducts(CbmsMainDbEntities context, Invoice invoice,
             List<InvoiceProduct> invoiceProducts)
         {
-            if (invoiceProducts.Any(invoiceProduct => invoiceProduct.InvoiceID != invoice.ID))
+            if (!invoiceProducts.Any())
             {
-                throw new DBLogicException("Nie wszystkie produkty należą do wprowadzanej faktury.");
+                throw new DBLogicException("Faktura nie może posiadać pustej listy produktów.");
             }
-
             return true;
         }
 

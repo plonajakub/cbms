@@ -139,9 +139,11 @@ namespace CbmsSrc.Backend
         {
             DBValidationService.ValidateAddInvoiceWithProducts(_context, invoice, invoiceProducts);
 
-            this.AddInvoice(invoice);
+            _context.Invoices.Add(invoice);
+            _context.SaveChanges();
             foreach (var invoiceProduct in invoiceProducts)
             {
+                invoiceProduct.InvoiceID = invoice.ID;
                 this.AddInvoiceProduct(invoiceProduct);
             }
         }
