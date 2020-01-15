@@ -17,11 +17,11 @@ namespace CbmsSrc.ViewModels
 {
     class InvoicesPageViewModel : Screen { 
         private DataService dataService;
-        private BindableCollection<Invoice> _invoicesList;
+        private BindableCollection<Tuple<Invoice,decimal,string,DateTime>> _invoicesList;
         private DialogHost dialogHost;
 
 
-        public BindableCollection<Invoice> InvoicesList
+        public BindableCollection<Tuple<Invoice, decimal, string, DateTime>> InvoicesList
         {
             get { return _invoicesList; }
             set
@@ -34,10 +34,25 @@ namespace CbmsSrc.ViewModels
         public InvoicesPageViewModel()
         {
             this.dataService = new DataService();
-            InvoicesList = new BindableCollection<Invoice>();
-            foreach (var invoice in dataService.GetLastInvoices(100))
+            InvoicesList = new BindableCollection<Tuple<Invoice, decimal, string, DateTime>>();
+            foreach (var invoice in dataService.GetLastInvoicesWithBalance(100))
             {
-                InvoicesList.Add(invoice);
+                var pending = "Oczekująca";
+                DateTime time = new DateTime();
+                if (invoice.Item1.History != null)
+                {
+                    pending = "Opłacona";
+                    time = invoice.Item1.History.PaymentDate;
+                }
+                else
+                {
+                    if(invoice.Item1.Pending != null)
+                        time = invoice.Item1.Pending.PaymentDeadline;
+
+                }
+
+                Tuple<Invoice, decimal, string, DateTime> new_invoice = new Tuple<Invoice, decimal, string, DateTime>(invoice.Item1,invoice.Item2, pending, time); 
+                InvoicesList.Add(new_invoice);
             };
             dialogHost = new DialogHost();
 
@@ -75,8 +90,9 @@ namespace CbmsSrc.ViewModels
             Console.WriteLine("You can intercept the closing event, and cancel here.");
         }
 
-        public void AddInvoice()
+        public void ClickedList()
         {
+            Console.WriteLine("Clicked list");
         }
 
         protected override void OnDeactivate(bool close)

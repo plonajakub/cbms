@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CbmsSrc.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -15,7 +17,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="Aqua">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48"/>
             <ColumnDefinition Width="*"/>
@@ -37,8 +39,13 @@
         <ListBox x:Name="InvoicesList"
                  Grid.Row="1"
                  Grid.Column="1"
-            Style="{StaticResource MaterialDesignCardsListBox}">
-          <ListBox.ItemTemplate>
+                 Style="{StaticResource MaterialDesignCardsListBox}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="ClickedList" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -55,25 +62,26 @@
                                     Grid.Column="0"
                                     Grid.ColumnSpan="2">
                             <TextBlock></TextBlock>
-                            <TextBlock Text="Oczekująca/Opłacona"></TextBlock>
+                            <TextBlock Text="{Binding Item3}"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" 
                                     Grid.Column="1"
                                     Grid.Row="1">
                             <TextBlock Text="Klient"/>
-                            <TextBlock Text="{Binding BusinessPartner.Name}"/>
+                            <TextBlock Text="{Binding Item1.BusinessPartner.Name}"/>
                             <TextBlock Text="Nr faktury"/>
-                            <TextBlock Text="{Binding Number}"/>
+                            <TextBlock Text="{Binding Item1.Number}"/>
                             <TextBlock Text="Data wystawienia"/>
-                            <TextBlock Text="{Binding IssueDate}"/>
+                            <TextBlock Text="{Binding Item1.IssueDate}"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical"
                                     Grid.Column="2"
                                     Grid.Row="1">
                             <TextBlock Text="Kwota"/>
-                            <TextBlock Text="price"/>
+                            <TextBlock Text="{Binding Item2}"/>
                             <TextBlock Text="Termin płatności"/>
-                            <TextBlock Text="{Binding History.PaymentDate}"/>
+                            
+                            <TextBlock Text="{Binding Item4}"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
