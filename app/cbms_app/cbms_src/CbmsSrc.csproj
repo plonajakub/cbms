@@ -157,6 +157,7 @@
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\InvoiceDialogViewModel.cs" />
     <Compile Include="ViewModels\InvoicesPageViewModel.cs" />
+    <Compile Include="ViewModels\PacketDialogViewModel.cs" />
     <Compile Include="ViewModels\PacketsPageViewModel.cs" />
     <Compile Include="ViewModels\SelectableProductViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -171,6 +172,9 @@
     </Compile>
     <Compile Include="Views\InvoicesPageView.xaml.cs">
       <DependentUpon>InvoicesPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PacketDialogView.xaml.cs">
+      <DependentUpon>PacketDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PacketsPageView.xaml.cs">
       <DependentUpon>PacketsPageView.xaml</DependentUpon>
@@ -245,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InvoicesPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PacketDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

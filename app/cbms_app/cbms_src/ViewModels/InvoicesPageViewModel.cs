@@ -106,10 +106,6 @@ namespace CbmsSrc.ViewModels
             Console.WriteLine("You can intercept the closing event, and cancel here.");
         }
 
-        public void ClickedList()
-        {
-            Console.WriteLine("Clicked list");
-        }
 
         protected override void OnDeactivate(bool close)
         {
