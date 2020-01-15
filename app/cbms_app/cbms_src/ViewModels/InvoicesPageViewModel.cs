@@ -18,8 +18,24 @@ namespace CbmsSrc.ViewModels
     class InvoicesPageViewModel : Screen { 
         private DataService dataService;
         private BindableCollection<Tuple<Invoice,decimal,string,DateTime>> _invoicesList;
+        private Tuple<Invoice, decimal, string, DateTime> _selectedInvoice;
         private DialogHost dialogHost;
 
+        public Tuple<Invoice, decimal, string, DateTime> SelectedInvoice
+        {
+            get { return _selectedInvoice; }
+            set
+            {
+                _selectedInvoice = value;
+                NotifyOfPropertyChange(() => SelectedInvoice);
+                if (_selectedInvoice.Item1.Pending != null)
+                {
+                    dataService.DeletePending(_selectedInvoice.Item1.ID);
+                    dataService.SaveToDb();
+                }
+
+            }
+        }
 
         public BindableCollection<Tuple<Invoice, decimal, string, DateTime>> InvoicesList
         {

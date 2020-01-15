@@ -38,13 +38,9 @@
         </StackPanel>
         <ListBox x:Name="InvoicesList"
                  Grid.Row="1"
+                 SelectedItem="{Binding SelectedInvoice}"
                  Grid.Column="1"
-                 Style="{StaticResource MaterialDesignCardsListBox}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <cal:ActionMessage MethodName="ClickedList" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                 Style="{StaticResource MaterialDesignListBox}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -87,8 +83,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-
 
     </Grid>
 </UserControl>
