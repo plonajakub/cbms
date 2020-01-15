@@ -18,7 +18,11 @@ namespace CbmsSrc.ViewModels
         public BindableCollection<Product> Products
         {
             get { return products; }
-            set { products = value; }
+            set
+            {
+                products = value;
+                NotifyOfPropertyChange(() => Products);
+            }
         }
 
         public Category SelectedCategory
@@ -28,6 +32,11 @@ namespace CbmsSrc.ViewModels
             {
                 selectedCategory = value;
                 NotifyOfPropertyChange(() => SelectedCategory);
+                products.Clear();
+                foreach (var product in products_categories[selectedCategory])
+                {
+                    products.Add(product);
+                }
             }
         }
 
