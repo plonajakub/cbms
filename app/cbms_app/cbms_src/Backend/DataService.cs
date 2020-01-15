@@ -233,7 +233,7 @@ namespace CbmsSrc.Backend
                 .OrderBy(p => p.Name)
                 .ToLookup(p => p.Category)
                 .ToDictionary(
-                    lookupEntry => lookupEntry.Key, 
+                    lookupEntry => lookupEntry.Key,
                     lookupEntry => lookupEntry.ToList());
         }
 
@@ -329,18 +329,19 @@ namespace CbmsSrc.Backend
         }
 
 
-        // One year
+        // Last calendar year
         public SortedDictionary<DateTime, decimal> GetHistoricalAccountBalance()
         {
             var accountHistory = new SortedDictionary<DateTime, decimal>();
 
-            var filterDate = new DateTime(DateTime.Now.AddYears(-1).Year, DateTime.Now.Month, 1);
+            var lowerFilterDate = new DateTime(DateTime.Now.AddYears(-1).Year, 1, 1);
 
-            for (; filterDate <= DateTime.Now; filterDate = filterDate.AddMonths(1))
+            for (var monthsIt = new DateTime(lowerFilterDate.Year, lowerFilterDate.Month, lowerFilterDate.Day);
+                monthsIt < lowerFilterDate.AddYears(1); monthsIt = monthsIt.AddMonths(1))
             {
-                accountHistory.Add(filterDate,
+                accountHistory.Add(monthsIt,
                     GetFilteredFunds(t => t.PaymentDate != null &&
-                                         t.PaymentDate >= filterDate && t.PaymentDate < filterDate.AddMonths(1)));
+                                         t.PaymentDate >= lowerFilterDate && t.PaymentDate < monthsIt.AddMonths(1)));
             }
             return accountHistory;
         }

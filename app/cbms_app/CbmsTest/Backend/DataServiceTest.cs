@@ -77,5 +77,21 @@ namespace CbmsTest.Backend
             Assert.AreEqual(expectedBalance, actualBalance);
             Assert.AreNotEqual(0, actualBalance);
         }
+
+        [TestMethod]
+        public void Test_GetHistoricalAccountBalance()
+        {
+            var plotData = _dataService.GetHistoricalAccountBalance();
+            DateTime key = DateTime.MinValue;
+            decimal value = Decimal.MinValue;
+            foreach (var point in plotData)
+            {
+                Assert.IsTrue(key < point.Key);
+                Assert.IsTrue(value < point.Value);
+                Console.WriteLine($"value = {value}, dictValue = {point.Value}");
+                key = point.Key;
+                value = point.Value;
+            }
+        }
     }
 }
