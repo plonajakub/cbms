@@ -348,7 +348,7 @@ namespace CbmsSrc.Backend
         public List<FundsPack> GetLastFundsPacks(int quantity)
         {
             return _context.FundsPacks
-                .OrderBy(fp => fp.State)
+                .OrderByDescending(fp => fp.ID)
                 .Take(quantity)
                 .ToList();
         }
