@@ -35,7 +35,7 @@ namespace CbmsSrc.ViewModels
         {
             this.dataService = new DataService();
             InvoicesList = new BindableCollection<Tuple<Invoice, decimal, string, DateTime>>();
-            foreach (var invoice in dataService.GetLastInvoicesWithBalance(100))
+            foreach (var invoice in dataService.GetInvoicesBalance(dataService.GetLastAddedToDbInvoices(5)))
             {
                 var pending = "Oczekująca";
                 DateTime time = new DateTime();

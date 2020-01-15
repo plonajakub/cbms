@@ -277,18 +277,29 @@ namespace CbmsSrc.Backend
         }
 
 
-        public List<Invoice> GetLastInvoices(int quantity)
+        private List<Invoice> GetLastInvoices<T>(int quantity, Func<Invoice, T> orderKeySelectorFunc)
         {
             return _context.Invoices
-                .OrderByDescending(i => i.IssueDate)
+                .OrderByDescending(orderKeySelectorFunc)
                 .Take(quantity)
                 .ToList();
         }
 
-        public List<Tuple<Invoice, decimal>> GetLastInvoicesWithBalance(int quantity)
+        public List<Invoice> GetLastIssuedInvoices(int quantity) => this.GetLastInvoices(quantity,
+            i => i.IssueDate);
+
+        public List<Invoice> GetLastPendingInvoices(int quantity) => this.GetLastInvoices(quantity,
+            i => i.Pending.PaymentDeadline);
+
+        public List<Invoice> GetLastHistoricalInvoices(int quantity) => this.GetLastInvoices(quantity,
+            i => i.History.PaymentDate);
+
+        public List<Invoice> GetLastAddedToDbInvoices(int quantity) => this.GetLastInvoices(quantity,
+            i => i.ID);
+
+        public List<Tuple<Invoice, decimal>> GetInvoicesBalance(List<Invoice> invoices)
         {
-            var fetchedInvoices = GetLastInvoices(quantity);
-            return fetchedInvoices
+            return invoices
                 .Select(invoice => new Tuple<Invoice, decimal>(
                     invoice,
                     invoice.InvoiceProducts.Sum(ip => ip.Quantity * ip.Price)))
