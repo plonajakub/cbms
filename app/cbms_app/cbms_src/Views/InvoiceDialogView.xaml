@@ -56,7 +56,7 @@
         materialDesign:HintAssist.Hint="Data wystawienia"
         Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
         Grid.Row="2"
-        Text="{Binding IssueDate}"/>
+        SelectedDate="{Binding IssueDateTime}"/>
 
     <DatePicker
         x:Name="FutureDatePicker"
@@ -66,7 +66,7 @@
         Grid.Column="1">
         <DatePicker.SelectedDate>
             <Binding
-                Path="PaymentDate"
+                Path="PaymentDateTime"
                 UpdateSourceTrigger="PropertyChanged">
                 <Binding.ValidationRules>
                     <cbmsSrc:FutureDateValidationRule

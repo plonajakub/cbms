@@ -36,6 +36,7 @@ namespace CbmsSrc.ViewModels
         {
             this.dataService = new DataService();
             AccountState = dataService.GetCurrentAccountBalance();
+            FundsBlocked = dataService.GetPendingFunds();
         }
         
         

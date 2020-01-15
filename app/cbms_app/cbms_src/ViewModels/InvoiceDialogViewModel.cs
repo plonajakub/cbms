@@ -27,26 +27,36 @@ namespace CbmsSrc.ViewModels
         private string selectedType;
         private Department selectedDepartment;
         private int invoiceNumber;
-        private string issueDateTime = "16-04-1998";
+        private DateTime issueDateTime;
         private BusinessPartner selectedBusinessPartner;
         private BindableCollection<Product> addedProducts;
         private BindableCollection<Category> addedCategories;
         private BindableCollection<int> addedQuantities;
         private BindableCollection<decimal> addedPrices;
-        public DateTime PaymentDateTime { get; set; }
+        private DateTime paymentDateTime;
+        public DateTime PaymentDateTime
+        {
+            get => paymentDateTime;
+            set
+            {
+                paymentDateTime = value;
+                NotifyOfPropertyChange(()=>PaymentDateTime);
+            }
+        }
 
 
-        public Tuple<Invoice, List<InvoiceProduct>> FilledInvoice;
+        public Tuple<Invoice, List<InvoiceProduct>, DateTime> FilledInvoice;
 
-        public string IssueDateTime
+        public DateTime IssueDateTime
         {
             get { return issueDateTime; }
             set
             {
                 issueDateTime = value;
                 NotifyOfPropertyChange(()=> IssueDateTime);
-                
-                FilledInvoice.Item1.IssueDate = new DateTime(Int32.Parse(issueDateTime.Substring(6, 4)), Int32.Parse(issueDateTime.Substring(3,2)), Int32.Parse(issueDateTime.Substring(0,2)));
+
+                FilledInvoice.Item1.IssueDate =
+                    issueDateTime; 
             }
         }
         public Department SelectedDepartment
@@ -100,10 +110,10 @@ namespace CbmsSrc.ViewModels
         {
             get { return selectedType;}
             set { 
-                if(value.Equals("Przychodząca"))
+                if(value.Contains("Przychodząca"))
                     selectedType = InvoiceType.In;
                 else
-                selectedType = InvoiceType.Out;
+                    selectedType = InvoiceType.Out;
                 FilledInvoice.Item1.Type = selectedType;
             }
         }
@@ -220,7 +230,7 @@ namespace CbmsSrc.ViewModels
 
         public InvoiceDialogViewModel()
         {
-            FilledInvoice = new Tuple<Invoice, List<InvoiceProduct>>(new Invoice(), new List<InvoiceProduct>());
+            FilledInvoice = new Tuple<Invoice, List<InvoiceProduct>, DateTime>(new Invoice(), new List<InvoiceProduct>(), new DateTime(2020,01,23));
             AddedCategories = new BindableCollection<Category>();
             AddedPrices = new BindableCollection<decimal>();
             AddedProducts = new BindableCollection<Product>();
@@ -248,6 +258,8 @@ namespace CbmsSrc.ViewModels
             SelectedCategory = categories.First();
             SelectedBusinessPartner = businessPartners.First();
             SelectedDepartment = departments.First();
+            IssueDateTime = new DateTime(2020,01,15);
+            PaymentDateTime = new DateTime(2020, 01, 23);
 
         }
         public void AddProductClick()

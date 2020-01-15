@@ -61,6 +61,8 @@ namespace CbmsSrc.ViewModels
             {
                 var filled = dataContext.FilledInvoice;
                 dataService.AddInvoiceWithProducts(filled.Item1, filled.Item2);
+                var pending = new Pending {InvoiceID = filled.Item1.ID, PaymentDeadline = dataContext.PaymentDateTime};
+                dataService.AddPending(pending);
                 dataService.SaveToDb();
                 //check the result...
                 Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " +
