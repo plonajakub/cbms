@@ -8,7 +8,6 @@ using System.Windows.Input;
 using CbmsSrc;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using CbmsSrc.Backend;
 using CbmsSrc.Views;
 using MaterialDesignThemes.Wpf;
@@ -36,7 +35,7 @@ namespace CbmsSrc.ViewModels
         {
             this.dataService = new DataService();
             InvoicesList = new BindableCollection<Invoice>();
-            foreach (var invoice in dataService.GetLastInvoices(1))
+            foreach (var invoice in dataService.GetLastInvoices(100))
             {
                 InvoicesList.Add(invoice);
             };
@@ -49,16 +48,25 @@ namespace CbmsSrc.ViewModels
         private async void ExecuteRunDialog(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new InvoiceDialog
+            var dataContext = new InvoiceDialogViewModel();
+            var view = new InvoiceDialogView
             {
-                DataContext = new InvoiceDialogViewModel()
+                DataContext = dataContext
             };
 
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
 
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+            if ((bool)result == true)
+            {
+                var filled = dataContext.FilledInvoice;
+                dataService.AddInvoiceWithProducts(filled.Item1, filled.Item2);
+                dataService.SaveToDb();
+                //check the result...
+                Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " +
+                                  (result ?? "NULL"));
+
+            }
         }
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {

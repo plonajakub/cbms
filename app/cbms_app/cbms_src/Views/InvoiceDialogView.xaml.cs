@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace CbmsSrc.Views
 {
     /// <summary>
-    /// Logika interakcji dla klasy InvoiceDialog.xaml
+    /// Logika interakcji dla klasy InvoiceDialogView.xaml
     /// </summary>
-    public partial class InvoiceDialog : UserControl
+    public partial class InvoiceDialogView : UserControl
     {
-        public InvoiceDialog()
+        public InvoiceDialogView()
         {
             InitializeComponent();
         }
