@@ -225,11 +225,14 @@ namespace CbmsSrc.Backend
                 .ToList();
         }
 
-        public List<Product> GetAllProducts()
+        public Dictionary<Category, List<Product>> GetAllProducts()
         {
             return _context.Products
                 .OrderBy(p => p.Name)
-                .ToList();
+                .ToLookup(p => p.Category)
+                .ToDictionary(
+                    lookupEntry => lookupEntry.Key, 
+                    lookupEntry => lookupEntry.ToList());
         }
 
         private decimal GetFilteredFunds(Func<Transaction, bool> filter)
@@ -290,7 +293,7 @@ namespace CbmsSrc.Backend
                 .ToList();
         }
 
-        
+
         public decimal GetFundsInvestedThisMonth()
         {
             var lowerMonthLimit = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);

@@ -45,6 +45,7 @@ namespace CbmsTest.Backend
         {
             var allProducts = _dataService.GetAllProducts();
             Assert.IsNotNull(allProducts);
+            Assert.AreNotEqual(0, allProducts.Count);
         }
 
         [TestMethod]
