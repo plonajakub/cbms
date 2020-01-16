@@ -11,13 +11,10 @@ namespace CbmsSrc.ViewModels
 {
     class ShellViewModel : Conductor<object>
     {
-        DataService dataService;
-        
         protected override void OnActivate()
         {
             base.OnActivate();
 
-            dataService = new DataService();
             HomeTab();
 
         }
