@@ -70,7 +70,7 @@
                             <TextBlock Text="Nr faktury"/>
                             <TextBlock Text="{Binding Item1.Number}"/>
                             <TextBlock Text="Data wystawienia"/>
-                            <TextBlock Text="{Binding Item1.IssueDate}"/>
+                            <TextBlock Text="{Binding Item1.IssueDateString}"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical"
                                     Grid.Column="2"
@@ -79,7 +79,7 @@
                             <TextBlock Text="{Binding Item2}"/>
                             <TextBlock Text="Termin płatności"/>
                             
-                            <TextBlock Text="{Binding Item4}"/>
+                            <TextBlock Text="{Binding Item1.DeadlineString}"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

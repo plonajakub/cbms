@@ -18,5 +18,15 @@ namespace CbmsSrc
         public System.DateTime PaymentDate { get; set; }
     
         public virtual Invoice Invoice { get; set; }
+
+        public string PaymentDateString
+        {
+            get
+            {
+                return PaymentDate.Year.ToString() + "-" + PaymentDate.Month.ToString() + "-" +
+                       PaymentDate.Day.ToString();
+            }
+            private set { }
+        }
     }
 }

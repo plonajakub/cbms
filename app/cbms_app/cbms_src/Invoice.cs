@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Windows.Media;
+
 namespace CbmsSrc
 {
     using System;
@@ -61,6 +63,34 @@ namespace CbmsSrc
                     return "Wychodz¹ca";
             }
             private set { }
+        }
+
+        public string IssueDateString
+        {
+            get
+            {
+                return IssueDate.Year.ToString() + "-" + IssueDate.Month.ToString() + "-" +
+                       IssueDate.Day.ToString();
+            }
+            private set { }
+        }
+
+        public string DeadlineString
+        {
+            get { 
+            if (History!= null)
+        {
+            return History.PaymentDateString;
+        }
+
+            if (Pending != null)
+            {
+                return Pending.PaymentDeadlineString;
+            }
+
+            return "";
+            }
+
         }
     }
     

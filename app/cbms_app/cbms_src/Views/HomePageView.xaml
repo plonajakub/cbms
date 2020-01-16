@@ -37,11 +37,11 @@
                        Margin="0,16,0,16"
                        FontSize="24" />
 
-            <TextBlock Text="Fundusze zablokowane" Grid.Row="4" Grid.Column="1" />
+            <TextBlock Text="Fundusze niezaksięgowane" Grid.Row="4" Grid.Column="1" />
             <TextBlock x:Name="FundsBlocked"
                        Grid.Row="3"
                        Grid.Column="1" />
-            <TextBlock Text="Fundusze zaplanowane na inwestycje"/>
+            <TextBlock Text="Fundusze przeznaczone na inwestycje"/>
             <TextBlock x:Name="FundsForInvestments"/>
         </StackPanel>
 

@@ -49,7 +49,7 @@ namespace CbmsSrc.ViewModels
         public ResolveFundsPackDialogViewModel()
         {
             dataService = new DataService();
-            Invoices = new BindableCollection<Invoice>(dataService.GetLastAddedToDbInvoices(100));
+            Invoices = new BindableCollection<Invoice>(dataService.GetUndocumentedInvoices(100));
             AddedInvoices = new BindableCollection<Invoice>();
 
         }

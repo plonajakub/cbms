@@ -8,7 +8,9 @@ using System.Windows.Input;
 using CbmsSrc;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using CbmsSrc.Backend;
+using CbmsSrc.Backend.Exceptions;
 using CbmsSrc.Views;
 using MaterialDesignThemes.Wpf;
 using static CbmsSrc.AnotherCommandImplementation;
@@ -91,10 +93,18 @@ namespace CbmsSrc.ViewModels
             if ((bool)result == true)
             {
                 var filled = dataContext.FilledInvoice;
-                dataService.AddInvoiceWithProducts(filled.Item1, filled.Item2);
-                var pending = new Pending {InvoiceID = filled.Item1.ID, PaymentDeadline = dataContext.PaymentDateTime};
-                dataService.AddPending(pending);
-                dataService.SaveToDb();
+                try
+                {
+                    dataService.AddInvoiceWithProducts(filled.Item1, filled.Item2);
+                    var pending = new Pending { InvoiceID = filled.Item1.ID, PaymentDeadline = dataContext.PaymentDateTime };
+                    dataService.AddPending(pending);
+                    dataService.SaveToDb();
+                }
+                catch (DBLogicException e)
+                {
+                    MessageBox.Show(e.Message, "Błędne dane");
+                }
+
                 //check the result...
                 Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " +
                                   (result ?? "NULL"));

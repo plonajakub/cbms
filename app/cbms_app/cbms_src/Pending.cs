@@ -18,5 +18,15 @@ namespace CbmsSrc
         public System.DateTime PaymentDeadline { get; set; }
     
         public virtual Invoice Invoice { get; set; }
+
+        public string PaymentDeadlineString
+        {
+            get
+            {
+                return PaymentDeadline.Year.ToString() + "-" + PaymentDeadline.Month.ToString() + "-" +
+                       PaymentDeadline.Day.ToString();
+            }
+            private set { }
+        }
     }
 }

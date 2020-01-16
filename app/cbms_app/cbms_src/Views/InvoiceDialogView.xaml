@@ -56,24 +56,18 @@
             materialDesign:HintAssist.Hint="Data wystawienia"
             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
             Grid.Row="2"
-            SelectedDate="{Binding IssueDateTime}" />
+            SelectedDate="{Binding IssueDateTime}"
+            SelectedDateFormat="Short"/>
 
         <DatePicker
-            x:Name="FutureDatePicker"
             Width="100"
-            materialDesign:HintAssist.Hint="Termin płatności"
+            materialDesign:HintAssist.Hint="Termin płatności"           
             Grid.Row="2"
-            Grid.Column="1">
-            <DatePicker.SelectedDate>
-                <Binding
-                    Path="PaymentDateTime"
-                    UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <cbmsSrc:FutureDateValidationRule
-                            ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-            </DatePicker.SelectedDate>
+            Grid.Column="1"
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+            SelectedDate="{Binding PaymentDateTime}"
+            SelectedDateFormat="Short">
+            
         </DatePicker>
 
         <ComboBox Grid.Row="3"
