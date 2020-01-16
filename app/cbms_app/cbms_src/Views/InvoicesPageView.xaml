@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel 
             Orientation="Horizontal"
@@ -40,6 +40,8 @@
                  Grid.Row="1"
                  SelectedItem="{Binding SelectedInvoice}"
                  Grid.Column="1"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ScrollViewer.CanContentScroll="False"
                  Style="{StaticResource MaterialDesignListBox}">
             <ListBox.ItemTemplate>
                 <DataTemplate>

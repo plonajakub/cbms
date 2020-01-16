@@ -4,9 +4,72 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CbmsSrc.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="Nowa paczka zasobów:"/>
+        <ComboBox ItemsSource="{Binding Departments}"
+                  Grid.Column="0"
+                  Grid.Row="1"
+                  materialDesign:HintAssist.Hint="Oddział"
+                  SelectedItem="{Binding SelectedDepartment}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox Grid.Column="1"
+                  Grid.Row="1"
+            materialDesign:HintAssist.Hint="Kategoria"
+            ItemsSource="{Binding Categories}"
+            SelectedItem="{Binding SelectedCategory}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <TextBox
+            Grid.Column="1"
+            materialDesign:HintAssist.Hint="Kwota"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            VerticalAlignment="Center"
+            Text="{Binding SelectedSum}" />
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Margin="0 16 0 0">
+            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+                DODAJ
+            </Button>
+            <Button IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+                ANULUJ
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

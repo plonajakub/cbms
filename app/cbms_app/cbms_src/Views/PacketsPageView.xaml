@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel 
             Orientation="Horizontal"
@@ -25,72 +25,73 @@
             <Button 
                 Command="{Binding RunDialogCommand}" Content="+" Margin="16,0,0,0"/>
         </StackPanel>
-
         <ListBox x:Name="FundsPacksList"
                  Grid.Row="1"
-                 SelectedItem="{Binding SelectedFundsPack}"
                  Grid.Column="1"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ScrollViewer.CanContentScroll="False"
+                 SelectedItem="{Binding SelectedFundsPack}"
                  Style="{StaticResource MaterialDesignListBox}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2">
-                            <TextBlock></TextBlock>
-                            <TextBlock Text="{Binding Status}"></TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" 
-                                    Grid.Column="1"
-                                    Grid.Row="1">
-                            <TextBlock Text="Oddział"/>
-                            <TextBlock Text="{Binding Department.Name}"/>
-                            <TextBlock Text="Kategoria"/>
-                            <TextBlock Text="{Binding Category}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical"
-                                    Grid.Column="2"
-                                    Grid.Row="1">
-                            <TextBlock Text="Kwota"/>
-                            <TextBlock Text="{Binding Sum}"/>
-                        </StackPanel>
-                        <ListView
-                            Grid.Column="1"
-                            Grid.ColumnSpan="2"
-                            Grid.Row="2"
-                            ItemsSource="{Binding Invoices}">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn
-                                        DisplayMemberBinding="{Binding Number}"
-                                        Header="Numer faktury" />
-                                    <GridViewColumn
-                                        DisplayMemberBinding="{Binding Type}"
-                                        Header="Typ" />
-                                    <GridViewColumn
-                                        DisplayMemberBinding="{Binding BusinessPartner.Name}"
-                                        Header="Klient" />
-                                    <GridViewColumn
-                                        DisplayMemberBinding="{Binding Price}"
-                                        Header="Cena" />
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2">
+                                <TextBlock></TextBlock>
+                                <TextBlock Text="{Binding StateString}"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical"
+                                        Grid.Column="1"
+                                        Grid.Row="1">
+                                <TextBlock Text="Oddział" />
+                                <TextBlock Text="{Binding Department.Name}" />
+                                <TextBlock Text="Kategoria" />
+                                <TextBlock Text="{Binding Category.Name}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical"
+                                        Grid.Column="2"
+                                        Grid.Row="1">
+                                <TextBlock Text="Kwota" />
+                                <TextBlock Text="{Binding Sum}" />
+                            </StackPanel>
+                            <ListView
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Grid.Row="2"
+                                ItemsSource="{Binding Invoices}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn
+                                            DisplayMemberBinding="{Binding Number}"
+                                            Header="Numer faktury" />
+                                        <GridViewColumn
+                                            DisplayMemberBinding="{Binding Type}"
+                                            Header="Typ" />
+                                        <GridViewColumn
+                                            DisplayMemberBinding="{Binding BusinessPartner.Name}"
+                                            Header="Klient" />
+                                        <GridViewColumn
+                                            DisplayMemberBinding="{Binding Price}"
+                                            Header="Suma" />
 
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
     </Grid>
 </UserControl>

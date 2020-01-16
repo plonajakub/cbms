@@ -60,8 +60,8 @@ namespace CbmsSrc.ViewModels
             if ((bool)result == true)
             {
                 var filled = dataContext.FilledFundsPack;
-              
-
+                filled.State = "add";
+                dataService.AddFundsPack(filled);
                 dataService.SaveToDb();
                 //check the result...
                 Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " +

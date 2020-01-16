@@ -35,5 +35,20 @@ namespace CbmsSrc
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceProduct> InvoiceProducts { get; set; }
         public virtual Pending Pending { get; set; }
+        
+        public virtual decimal Price
+        {
+            get
+            {
+                decimal price = 0;
+                foreach (var ip in InvoiceProducts)
+                {
+                    price += ip.Price * ip.Quantity;
+                }
+
+                return price;
+            }
+            private set {}
+        }
     }
 }

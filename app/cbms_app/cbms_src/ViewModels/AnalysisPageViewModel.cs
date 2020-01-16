@@ -19,11 +19,11 @@ namespace CbmsSrc.ViewModels
         {
             dataService = new DataService();
             Labels = new List<string>();
-            var account_states = new List<decimal>();
+            var accountStates = new List<decimal>();
             var data = dataService.GetHistoricalAccountBalance();
             foreach (var series in data)
             {
-                account_states.Add(series.Value);
+                accountStates.Add(series.Value);
                 Labels.Add(series.Key.ToShortDateString());
             }
             SeriesCollection = new SeriesCollection
@@ -31,14 +31,13 @@ namespace CbmsSrc.ViewModels
                 new LineSeries
                 {
                     Title = "Stan konta",
-                    Values = new ChartValues<decimal>(account_states)
+                    Values = new ChartValues<decimal>(accountStates)
                 }
 
             };
 
             YFormatter = value => value.ToString("C");
 
-          
             //modifying any series values will also animate and update the chart
             //SeriesCollection[3].Values.Add(5d);
         }
