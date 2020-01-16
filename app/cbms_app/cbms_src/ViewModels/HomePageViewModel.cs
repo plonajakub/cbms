@@ -13,6 +13,30 @@ namespace CbmsSrc.ViewModels
         DataService dataService;
         decimal _accountState;
         private decimal _fundsBlocked;
+        private decimal _fundsForInvestments;
+        private BindableCollection<Invoice> _lastTransactions;
+
+
+        public BindableCollection<Invoice> LastTransactions
+        {
+            get { return _lastTransactions;}
+            set
+            {
+                _lastTransactions = value;
+                NotifyOfPropertyChange(() => LastTransactions);
+            }
+        }
+
+        public decimal FundsForInvestments
+        {
+            get { return _fundsForInvestments; }
+            set
+            {
+                _fundsForInvestments = value;
+                NotifyOfPropertyChange(() => FundsForInvestments);
+            }
+        }
+
         public decimal FundsBlocked
         {
             get { return _fundsBlocked; }
@@ -37,6 +61,8 @@ namespace CbmsSrc.ViewModels
             this.dataService = new DataService();
             AccountState = dataService.GetCurrentAccountBalance();
             FundsBlocked = dataService.GetPendingFunds();
+            FundsForInvestments = dataService.GetFundsBlockedForInvestments();
+            LastTransactions = new BindableCollection<Invoice>(dataService.GetLastAddedToDbInvoices(3));
         }
         
         
