@@ -297,6 +297,12 @@ namespace CbmsSrc.Backend
         public List<Invoice> GetLastAddedToDbInvoices(int quantity) => this.GetLastInvoices(quantity,
             i => i.ID);
 
+        public List<Invoice> GetUndocumentedInvoices(int quantity)
+        {
+            return GetLastAddedToDbInvoices(quantity)
+                .Where(i => i.FoundsPackID == null)
+                .ToList();
+        }
         public List<Tuple<Invoice, decimal>> GetInvoicesBalance(List<Invoice> invoices)
         {
             return invoices
