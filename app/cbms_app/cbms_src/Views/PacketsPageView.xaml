@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CbmsSrc.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -24,6 +26,9 @@
             <TextBlock Text="Wszystkie paczki"/>
             <Button 
                 Command="{Binding RunDialogCommand}" Content="+" Margin="16,0,0,0"/>
+            <Button Grid.Column="1"
+                    Grid.Row ="3" 
+                    Command="{Binding RunResolveFundsPackCommand}">Rozpatrz</Button>
         </StackPanel>
         <ListBox x:Name="FundsPacksList"
                  Grid.Row="1"
@@ -32,7 +37,7 @@
                  ScrollViewer.CanContentScroll="False"
                  SelectedItem="{Binding SelectedFundsPack}"
                  Style="{StaticResource MaterialDesignListBox}">
-                <ListBox.ItemTemplate>
+            <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -41,6 +46,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -77,7 +83,7 @@
                                             DisplayMemberBinding="{Binding Number}"
                                             Header="Numer faktury" />
                                         <GridViewColumn
-                                            DisplayMemberBinding="{Binding StringType}"
+                                            DisplayMemberBinding="{Binding TypeString}"
                                             Header="Typ" />
                                         <GridViewColumn
                                             DisplayMemberBinding="{Binding BusinessPartner.Name}"
