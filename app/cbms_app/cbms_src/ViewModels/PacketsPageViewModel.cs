@@ -43,8 +43,39 @@ namespace CbmsSrc.ViewModels
             FundsPacksList = new BindableCollection<FundsPack>(dataService.GetLastFundsPacks(100));
         }
 
+        public ICommand RunResolveFundsPackCommand => new AnotherCommandImplementation(ExecuteRunResolveFundsPackDialog);
         public ICommand RunDialogCommand => new AnotherCommandImplementation(ExecuteRunDialog);
 
+        private async void ExecuteRunResolveFundsPackDialog(object o)
+        {
+            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            var dataContext = new ResolveFundsPackDialogViewModel();
+            var view = new ResolveFundsPackDialogView
+            {
+                DataContext = dataContext
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+
+            if ((bool)result == true)
+            {
+                var filled = dataContext.AddedInvoices;
+                foreach (var invoice in filled)
+                {
+                    invoice.FoundsPackID = SelectedFundsPack.ID;
+                    dataService.UpdateInvoice(invoice);    
+                }
+
+                SelectedFundsPack.State = "fin";
+                dataService.UpdateFundsPack(SelectedFundsPack);
+                dataService.SaveToDb();
+                //check the result...
+                Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " +
+                                  (result ?? "NULL"));
+
+            }
+        }
         private async void ExecuteRunDialog(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:

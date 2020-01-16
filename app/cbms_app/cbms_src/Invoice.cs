@@ -50,5 +50,18 @@ namespace CbmsSrc
             }
             private set {}
         }
+
+        public virtual string TypeString
+        {
+            get
+            {
+                if (Type == "in")
+                    return "Przychodz¹ca";
+                else
+                    return "Wychodz¹ca";
+            }
+            private set { }
+        }
     }
+    
 }
